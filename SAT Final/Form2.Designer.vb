@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Form1
+Partial Class Form2
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,41 +22,30 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.encodeXML = New System.Windows.Forms.Button()
-        Me.decodeXML = New System.Windows.Forms.Button()
+        Me.homeBtn = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'encodeXML
+        'homeBtn
         '
-        Me.encodeXML.Location = New System.Drawing.Point(299, 99)
-        Me.encodeXML.Name = "encodeXML"
-        Me.encodeXML.Size = New System.Drawing.Size(476, 134)
-        Me.encodeXML.TabIndex = 0
-        Me.encodeXML.Text = "Encode to XML"
-        Me.encodeXML.UseVisualStyleBackColor = True
+        Me.homeBtn.Font = New System.Drawing.Font("Arial", 13.875!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.homeBtn.Location = New System.Drawing.Point(13, 13)
+        Me.homeBtn.Name = "homeBtn"
+        Me.homeBtn.Size = New System.Drawing.Size(264, 47)
+        Me.homeBtn.TabIndex = 0
+        Me.homeBtn.Text = "Back to Home"
+        Me.homeBtn.UseVisualStyleBackColor = True
         '
-        'decodeXML
-        '
-        Me.decodeXML.Location = New System.Drawing.Point(299, 335)
-        Me.decodeXML.Name = "decodeXML"
-        Me.decodeXML.Size = New System.Drawing.Size(476, 134)
-        Me.decodeXML.TabIndex = 1
-        Me.decodeXML.Text = "Decode From XML"
-        Me.decodeXML.UseVisualStyleBackColor = True
-        '
-        'Form1
+        'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1104, 603)
-        Me.Controls.Add(Me.decodeXML)
-        Me.Controls.Add(Me.encodeXML)
-        Me.Name = "Form1"
-        Me.Text = "RF-AI Tracker"
+        Me.ClientSize = New System.Drawing.Size(1255, 649)
+        Me.Controls.Add(Me.homeBtn)
+        Me.Name = "Form2"
+        Me.Text = "Form2"
         Me.ResumeLayout(False)
 
     End Sub
 
-    Friend WithEvents encodeXML As Button
-    Friend WithEvents decodeXML As Button
+    Friend WithEvents homeBtn As Button
 End Class
