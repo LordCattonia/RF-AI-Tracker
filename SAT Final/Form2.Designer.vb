@@ -23,6 +23,7 @@ Partial Class Form2
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.homeBtn = New System.Windows.Forms.Button()
+        Me.searchBar = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'homeBtn
@@ -30,22 +31,36 @@ Partial Class Form2
         Me.homeBtn.Font = New System.Drawing.Font("Arial", 13.875!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.homeBtn.Location = New System.Drawing.Point(13, 13)
         Me.homeBtn.Name = "homeBtn"
-        Me.homeBtn.Size = New System.Drawing.Size(264, 47)
+        Me.homeBtn.Size = New System.Drawing.Size(289, 60)
         Me.homeBtn.TabIndex = 0
         Me.homeBtn.Text = "Back to Home"
         Me.homeBtn.UseVisualStyleBackColor = True
+        '
+        'searchBar
+        '
+        Me.searchBar.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.searchBar.Location = New System.Drawing.Point(320, 13)
+        Me.searchBar.Multiline = True
+        Me.searchBar.Name = "searchBar"
+        Me.searchBar.Size = New System.Drawing.Size(875, 60)
+        Me.searchBar.TabIndex = 1
+        Me.searchBar.WordWrap = False
         '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1255, 649)
+        Me.ClientSize = New System.Drawing.Size(1595, 1001)
+        Me.Controls.Add(Me.searchBar)
         Me.Controls.Add(Me.homeBtn)
         Me.Name = "Form2"
         Me.Text = "Form2"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents homeBtn As Button
+    Friend WithEvents searchBar As TextBox
 End Class

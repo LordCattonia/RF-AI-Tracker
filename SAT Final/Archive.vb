@@ -1,4 +1,4 @@
-﻿Public Class Class1
+﻿Public Class Archive
     Dim RFIList As New XDocument()
     ' This is a simple Windows Forms application that creates and decodes an XML file.
     Private Sub encodeXML_Click(sender As Object, e As EventArgs)
