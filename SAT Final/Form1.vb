@@ -11,8 +11,6 @@ Public Class Form1
             Dim rfiFile As String = args(1)
             MsgBox("Opening RFI file: " & rfiFile)
             OpenRfiFile(rfiFile)
-        Else
-
         End If
     End Sub
     Sub OpenRfiFile(filePath As String)
