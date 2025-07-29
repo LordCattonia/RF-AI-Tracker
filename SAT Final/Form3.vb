@@ -8,6 +8,7 @@
         InitializeComponent()
         _parentForm = parent
     End Sub
+    Private Property _isDarkMode As Boolean
 
     Private Sub rfiCancel_Click(sender As Object, e As EventArgs) Handles rfiCancel.Click
         Me.Close()
