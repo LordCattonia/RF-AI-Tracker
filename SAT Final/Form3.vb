@@ -9,5 +9,8 @@
         _parentForm = parent
     End Sub
 
-
+    Private Sub rfiCancel_Click(sender As Object, e As EventArgs) Handles rfiCancel.Click
+        Me.Close()
+        _parentForm.Show()
+    End Sub
 End Class

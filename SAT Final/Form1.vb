@@ -5,7 +5,6 @@ Public Class Form1
     Dim RFIlist As XElement
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-
         Dim args() As String = Environment.GetCommandLineArgs()
         If args.Length > 1 Then
             Dim rfiFile As String = args(1)
@@ -27,7 +26,7 @@ Public Class Form1
         End Try
     End Sub
 
-    Private Sub decodeXML_Click(sender As Object, e As EventArgs) Handles decodeXML.Click
+    Private Sub decodeXML_Click(sender As Object, e As EventArgs) Handles runTest.Click
         Dim form2 As New Form2(Me)  ' Pass Form1 reference
         Me.Hide()
         form2.Show()

@@ -26,6 +26,9 @@
     End Sub
 
     Private Sub newRFI_Click(sender As Object, e As EventArgs) Handles newRFI.Click
-
+        Me.Hide()
+        Dim form3 As New Form3(Me) ' Pass Form2 reference
+        form3.Show()
     End Sub
+
 End Class
