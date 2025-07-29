@@ -2,7 +2,11 @@
 Imports Microsoft.VisualBasic.ApplicationServices
 
 Public Class Form1
+
+
     Dim RFIlist As XElement
+
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 
@@ -31,5 +35,9 @@ Public Class Form1
         Dim form2 As New Form2(Me)  ' Pass Form1 reference
         Me.Hide()
         form2.Show()
+    End Sub
+
+    Private Sub encodeXML_Click(sender As Object, e As EventArgs) Handles encodeXML.Click
+
     End Sub
 End Class

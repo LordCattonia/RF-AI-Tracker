@@ -8,6 +8,15 @@
         InitializeComponent()
         _parentForm = parent
     End Sub
+    Private Property _isDarkMode As Boolean
 
+    Public Property isDarkMode
+        Get
+            Return _isDarkMode
+        End Get
+        Set(value)
+            _isDarkMode = isDarkMode
+        End Set
+    End Property
 
 End Class

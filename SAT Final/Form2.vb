@@ -1,5 +1,6 @@
 ﻿Public Class Form2
     Private Property _parentForm As Form1
+
     ''' <summary>
     ''' Reference to the parent form (Form1) to allow navigation back to it.
     ''' If this is not here, the application will not properly exit.
@@ -8,6 +9,11 @@
     Public Sub New(parent As Form1)
         InitializeComponent()
         _parentForm = parent
+        If darkMode.isDarkMode Then
+            colourToggle.Text = "Dark"
+        Else
+            colourToggle.Text = "Light"
+        End If
     End Sub
     Private Sub homeBtn_Click(sender As Object, e As EventArgs) Handles homeBtn.Click
         _parentForm.Show()
@@ -27,5 +33,20 @@
 
     Private Sub newRFI_Click(sender As Object, e As EventArgs) Handles newRFI.Click
 
+    End Sub
+
+    Private Sub colourToggle_Click(sender As Object, e As EventArgs) Handles colourToggle.Click
+        darkMode.setAllForms(True) ' true activates the toggle, so it will switch to the opposite theme before running. It will also change the global variable isDarkMode to the opposite of what it was before.
+        If colourToggle.Text = "Dark" Then
+            colourToggle.Text = "Light"
+        Else
+            colourToggle.Text = "Dark"
+        End If
+
+    End Sub
+
+    Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        darkMode.setAllForms(False) ' This will apply the current theme to this form and all other open forms. False as we do not want to toggle the theme here, we just want to apply the current theme.
+        ' Has to be in load as the theme is not applied until the form is loaded, so if it was in the constructor it would not apply the theme.
     End Sub
 End Class
