@@ -108,15 +108,14 @@ End Class
 
 
 Public Class projectClass
-    Private Property _rfiList As New List(Of rfiClass)
-
+    Public Property _rfiList As New List(Of rfiClass) ' public and not through getters and setters to make sure users of the class 
 
     Public Sub exportXML()
-        Dim 
         For Each rfi As rfiClass In _rfiList
 
         Next
     End Sub
+
 
     Public Sub loadXML(rfiXML As XDocument)
         For Each RFI As XElement In rfiXML.Root.Elements("rfi")

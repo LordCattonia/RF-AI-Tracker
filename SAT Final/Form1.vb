@@ -36,7 +36,5 @@ Public Class Form1
         form2.Show()
     End Sub
 
-    Private Sub encodeXML_Click(sender As Object, e As EventArgs) Handles encodeXML.Click
 
-    End Sub
 End Class

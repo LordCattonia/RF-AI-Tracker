@@ -37,7 +37,6 @@
         form3.Show()
     End Sub
 
-    End Sub
 
     Private Sub colourToggle_Click(sender As Object, e As EventArgs) Handles colourToggle.Click
         darkMode.setAllForms(True) ' true activates the toggle, so it will switch to the opposite theme before running. It will also change the global variable isDarkMode to the opposite of what it was before.
@@ -52,5 +51,9 @@
     Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         darkMode.setAllForms(False) ' This will apply the current theme to this form and all other open forms. False as we do not want to toggle the theme here, we just want to apply the current theme.
         ' Has to be in load as the theme is not applied until the form is loaded, so if it was in the constructor it would not apply the theme.
+    End Sub
+
+    Private Sub rfiDisplay_Paint(sender As Object, e As PaintEventArgs) Handles rfiDisplay.Paint
+
     End Sub
 End Class

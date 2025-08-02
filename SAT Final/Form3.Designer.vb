@@ -41,10 +41,9 @@ Partial Class Form3
         Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 30.0!)
-        Me.Label1.Location = New System.Drawing.Point(445, 7)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label1.Location = New System.Drawing.Point(593, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(262, 69)
+        Me.Label1.Size = New System.Drawing.Size(349, 91)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "New RFI"
         '
@@ -52,10 +51,9 @@ Partial Class Form3
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.0!)
-        Me.Label2.Location = New System.Drawing.Point(45, 130)
-        Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label2.Location = New System.Drawing.Point(60, 162)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(75, 58)
+        Me.Label2.Size = New System.Drawing.Size(99, 76)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "ID"
         '
@@ -64,40 +62,39 @@ Partial Class Form3
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.0!)
-        Me.Label3.Location = New System.Drawing.Point(704, 130)
-        Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label3.Location = New System.Drawing.Point(939, 162)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(165, 58)
+        Me.Label3.Size = New System.Drawing.Size(218, 76)
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "Image"
         '
         'rfiImg
         '
         Me.rfiImg.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rfiImg.Location = New System.Drawing.Point(902, 130)
-        Me.rfiImg.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.rfiImg.Location = New System.Drawing.Point(1203, 162)
+        Me.rfiImg.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.rfiImg.Name = "rfiImg"
-        Me.rfiImg.Size = New System.Drawing.Size(216, 182)
+        Me.rfiImg.Size = New System.Drawing.Size(288, 228)
+        Me.rfiImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.rfiImg.TabIndex = 3
         Me.rfiImg.TabStop = False
         '
         'rfiID
         '
         Me.rfiID.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.rfiID.Location = New System.Drawing.Point(124, 145)
-        Me.rfiID.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.rfiID.Location = New System.Drawing.Point(165, 181)
+        Me.rfiID.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.rfiID.Name = "rfiID"
-        Me.rfiID.Size = New System.Drawing.Size(95, 41)
+        Me.rfiID.Size = New System.Drawing.Size(125, 53)
         Me.rfiID.TabIndex = 4
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.0!)
-        Me.Label4.Location = New System.Drawing.Point(45, 252)
-        Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label4.Location = New System.Drawing.Point(60, 315)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(276, 58)
+        Me.Label4.Size = New System.Drawing.Size(365, 76)
         Me.Label4.TabIndex = 5
         Me.Label4.Text = "Description"
         '
@@ -107,11 +104,11 @@ Partial Class Form3
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rfiDesc.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.rfiDesc.Location = New System.Drawing.Point(55, 333)
-        Me.rfiDesc.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.rfiDesc.Location = New System.Drawing.Point(73, 416)
+        Me.rfiDesc.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.rfiDesc.Multiline = True
         Me.rfiDesc.Name = "rfiDesc"
-        Me.rfiDesc.Size = New System.Drawing.Size(1065, 372)
+        Me.rfiDesc.Size = New System.Drawing.Size(1419, 464)
         Me.rfiDesc.TabIndex = 6
         '
         'rfiSubmit
@@ -119,10 +116,10 @@ Partial Class Form3
         Me.rfiSubmit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rfiSubmit.BackColor = System.Drawing.SystemColors.ControlDark
         Me.rfiSubmit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.rfiSubmit.Location = New System.Drawing.Point(1030, 728)
-        Me.rfiSubmit.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.rfiSubmit.Location = New System.Drawing.Point(1373, 910)
+        Me.rfiSubmit.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.rfiSubmit.Name = "rfiSubmit"
-        Me.rfiSubmit.Size = New System.Drawing.Size(112, 39)
+        Me.rfiSubmit.Size = New System.Drawing.Size(149, 49)
         Me.rfiSubmit.TabIndex = 7
         Me.rfiSubmit.Text = "Submit"
         Me.rfiSubmit.UseVisualStyleBackColor = False
@@ -131,10 +128,10 @@ Partial Class Form3
         '
         Me.rfiCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rfiCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.rfiCancel.Location = New System.Drawing.Point(902, 728)
-        Me.rfiCancel.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.rfiCancel.Location = New System.Drawing.Point(1203, 910)
+        Me.rfiCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.rfiCancel.Name = "rfiCancel"
-        Me.rfiCancel.Size = New System.Drawing.Size(112, 39)
+        Me.rfiCancel.Size = New System.Drawing.Size(149, 49)
         Me.rfiCancel.TabIndex = 8
         Me.rfiCancel.Text = "Cancel"
         Me.rfiCancel.UseVisualStyleBackColor = True
@@ -143,19 +140,19 @@ Partial Class Form3
         '
         Me.imgBtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.imgBtn.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.imgBtn.Location = New System.Drawing.Point(718, 199)
-        Me.imgBtn.Margin = New System.Windows.Forms.Padding(2)
+        Me.imgBtn.Location = New System.Drawing.Point(957, 249)
+        Me.imgBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.imgBtn.Name = "imgBtn"
-        Me.imgBtn.Size = New System.Drawing.Size(139, 39)
+        Me.imgBtn.Size = New System.Drawing.Size(185, 49)
         Me.imgBtn.TabIndex = 9
         Me.imgBtn.Text = "Add image"
         Me.imgBtn.UseVisualStyleBackColor = True
         '
         'Form3
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1174, 787)
+        Me.ClientSize = New System.Drawing.Size(1565, 984)
         Me.Controls.Add(Me.imgBtn)
         Me.Controls.Add(Me.rfiCancel)
         Me.Controls.Add(Me.rfiSubmit)
@@ -167,7 +164,7 @@ Partial Class Form3
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "Form3"
         Me.Text = "New RFI"
         CType(Me.rfiImg, System.ComponentModel.ISupportInitialize).EndInit()
