@@ -90,7 +90,7 @@ Public Class rfiClass
     ''' <param name="ID">Unique identifier for the RFI</param>
     ''' <param name="desc">Description of the RFI</param>
     ''' <param name="image">Location of the image associated with the RFI</param>
-    Public Sub New(ID, desc, image)
+    Public Sub New(ID As Integer, desc As String, image As String)
         ' Set inital variables
         _ID = ID
         _desc = desc
@@ -108,10 +108,10 @@ End Class
 
 
 Public Class projectClass
-    Public Property _rfiList As New List(Of rfiClass) ' public and not through getters and setters to make sure users of the class 
+    Public Property rfiList As New List(Of rfiClass) ' public and not through getters and setters to make sure users of the class have access to all list functions
 
     Public Sub exportXML()
-        For Each rfi As rfiClass In _rfiList
+        For Each rfi As rfiClass In rfiList
 
         Next
     End Sub
