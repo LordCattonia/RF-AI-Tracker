@@ -52,7 +52,39 @@
         ' Has to be in load as the theme is not applied until the form is loaded, so if it was in the constructor it would not apply the theme.
     End Sub
 
-    Private Sub rfiDisplay_Paint(sender As Object, e As PaintEventArgs) Handles rfiDisplay.Paint
+    Private Sub displayRfi()
+        For Each i In globalProj.proj.rfiList
+            Dim rfiItem As New ListViewItem(i.ID.ToString())
+            rfiItem.SubItems.Add(i.desc)
+            rfiItem.SubItems.Add(i.dateCreated.ToShortDateString())
+            rfiItem.SubItems.Add(i.dateCompleted.ToShortDateString())
+            rfiItem.SubItems.Add(i.daysPast.ToString())
+            rfiItem.SubItems.Add(i.isComplete.ToString())
 
+        Next
+    End Sub
+
+    Private Sub exportBtn_Click(sender As Object, e As EventArgs) Handles exportBtn.Click
+
+    End Sub
+
+    Private Sub hideToDo_Click(sender As Object, e As EventArgs) Handles hideToDo.Click
+        If sender.text = "Hide" Then
+            sender.text = "Show"
+            todoDisplay.Visible = False
+        Else
+            sender.text = "Hide"
+            todoDisplay.Visible = True
+        End If
+    End Sub
+
+    Private Sub doneHide_Click(sender As Object, e As EventArgs) Handles hideDone.Click
+        If sender.text = "Hide" Then
+            sender.text = "Show"
+            doneDisplay.Visible = False
+        Else
+            sender.text = "Hide"
+            doneDisplay.Visible = True
+        End If
     End Sub
 End Class
