@@ -35,6 +35,8 @@ Public Class Form3
     End Sub
 
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        darkMode.setAllForms(False) ' This will apply the current theme to this form and all other open forms. False as we do not want to toggle the theme here, we just want to apply the current theme.
+        ' Has to be in load as the theme is not applied until the form is loaded, so if it was in the constructor it would not apply the theme.
         rfiID.Text = globalProj.nextId
     End Sub
     ''' <summary>

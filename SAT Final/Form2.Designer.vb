@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Form2
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Form2
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form2))
         Me.homeBtn = New System.Windows.Forms.Button()
@@ -143,8 +143,7 @@ Partial Class Form2
         '
         'todoDisplay
         '
-        Me.todoDisplay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.todoDisplay.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.todoDisplay.AutoSize = True
         Me.todoDisplay.BackColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.todoDisplay.Controls.Add(Me.testRfi1)
@@ -155,13 +154,14 @@ Partial Class Form2
         '
         'testRfi1
         '
+        Me.testRfi1.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.todoDisplay.SetFlowBreak(Me.testRfi1, True)
         Me.testRfi1.Location = New System.Drawing.Point(3, 3)
         Me.testRfi1.Name = "testRfi1"
         Me.testRfi1.Size = New System.Drawing.Size(1158, 38)
         Me.testRfi1.TabIndex = 0
         Me.testRfi1.Text = "This is a test rfi"
-        Me.testRfi1.UseVisualStyleBackColor = True
+        Me.testRfi1.UseVisualStyleBackColor = False
         '
         'Label2
         '
@@ -209,18 +209,21 @@ Partial Class Form2
         '
         'Button1
         '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.doneDisplay.SetFlowBreak(Me.Button1, True)
         Me.Button1.Location = New System.Drawing.Point(3, 3)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(1158, 38)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "This is a test rfi"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.UseVisualStyleBackColor = False
         '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(1196, 801)
         Me.Controls.Add(Me.rfiDisplay)
         Me.Controls.Add(Me.newRFI)

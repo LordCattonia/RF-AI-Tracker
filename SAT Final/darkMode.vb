@@ -16,20 +16,23 @@
     End Sub
 
     ''' <summary>
-    ''' Applies a set theme to a control and its child controls.
+    ''' Applies a set theme to a control and recursively to any other child controls
     ''' <param name="ctrl">The control to apply the theme to.</param>
     ''' <param name="dark">If True applies dark theme, otherwise applies light theme.</param>
     ''' </summary>
     Private Sub ApplyTheme(ctrl As Control, dark As Boolean)
-        If dark Then
+        If dark And TypeOf ctrl IsNot FlowLayoutPanel Then ' if dark mode is enabled blanket set everything to dark grey with white text
             ctrl.BackColor = Color.FromArgb(30, 30, 30)
             ctrl.ForeColor = Color.White
-        Else
+        ElseIf TypeOf ctrl Is Button Or TypeOf ctrl Is TextBox Then ' but textboxes and buttons look better with a white background in light mode
+            ctrl.BackColor = Color.White
+            ctrl.ForeColor = SystemColors.ControlText
+        ElseIf TypeOf ctrl IsNot FlowLayoutPanel Then ' this is for debugging, delete when done
             ctrl.BackColor = SystemColors.Control
             ctrl.ForeColor = SystemColors.ControlText
         End If
 
-        ' Recursively apply to child controls
+        ' Recursively apply to child controls for flowlayout panels and other controls
         For Each child As Control In ctrl.Controls
             ApplyTheme(child, dark)
         Next
