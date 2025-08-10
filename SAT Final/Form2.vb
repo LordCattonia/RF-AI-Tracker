@@ -1,4 +1,6 @@
-﻿Public Class Form2
+﻿Imports System.ComponentModel
+
+Public Class Form2
     Private Property _parentForm As Form1
 
     ''' <summary>
@@ -8,6 +10,9 @@
     ''' <param name="parent">This is the parent form to allow re-showing form1 after hiding</param>
     Public Sub New(parent As Form1)
         InitializeComponent()
+
+
+
         _parentForm = parent
         If darkMode.isDarkMode Then
             colourToggle.Text = "Dark"
@@ -56,8 +61,10 @@
     Private Sub displayRfi()
         ' Planned layout:
         'flowlayoutpanel>{label for id, aiDesc, 
-        Dim rfiRow As New RfiRow("RFI-001", "AI-generated description goes here", "Some notes go here", DateTime.Now)
-        doneDisplay.Controls.Add(rfiRow)
+        Dim rfiRow As New RfiRow("001", "AI-generated description goes here", "Some notes go here", doneDisplay, False, DateTime.Now)
+        AddHandler rfiRow.ToggleCompleteClicked, AddressOf toggleComplete ' This will call the toggleComplete function in Form2, which will move the RFI row to the appropriate display based on its completion state.
+        ' uses custom event ToggleCompleteClicked to handle the toggle complete button click and avoid any issues with button as the sender.
+        todoDisplay.Controls.Add(rfiRow)
     End Sub
 
     Private Sub exportBtn_Click(sender As Object, e As EventArgs) Handles exportBtn.Click
@@ -84,212 +91,222 @@
         End If
     End Sub
 
+    ''' <summary>
+    ''' Used by the RfiRow class to toggle the completion state of the RFI.
+    ''' Moves the RFI row to the appropriate display based on its completion state.
+    ''' If it is complete, it will move to the doneDisplay, otherwise it will move to the todoDisplay.
+    ''' 
+    ''' Cannot be placed in the RfiRow class as it needs access to the todoDisplay and doneDisplay controls, which are not accessible from within the RfiRow class.
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Public Sub toggleComplete(sender As RfiRow, e As EventArgs)
 
-    Private Function CreateRfiRow() As Panel
-        ' Container for the whole row
-        Dim rowPanel As New Panel With {
-            .Height = 80,
-            .Width = doneDisplay.ClientSize.Width,
-            .Anchor = AnchorStyles.Left Or AnchorStyles.Right,
-            .Dock = DockStyle.Top,
-            .BackColor = Color.White,
-            .Padding = New Padding(5),
-            .BorderStyle = BorderStyle.FixedSingle
-        }
+        'if we get here, we know that the cast was successful and we can safely use parentRfiRow
+        If sender.isComplete Then ' If the rfi is complete, we toggle it to uncomplete
+            ' Move to todo display
+            todoDisplay.Controls.Add(sender)
 
-        ' Left vertical button
-        Dim btnLeft As New Button With {
-            .Text = "RFI ID",
-            .Width = 50,
+        Else ' otherwise , if it is not complete, we toggle it to complete
+            ' Move to done display
+            doneDisplay.Controls.Add(sender)
+        End If
+    End Sub
+    ''' <summary>
+    ''' Represents a single RFI row in the display.
+    ''' Contains buttons for actions and labels for details.
+    ''' </summary>)
+
+    Public Class RfiRow
+        Inherits Panel
+
+        ' Private fields containing the display details, created to use in functions in the future.
+        Private rfiIdButton As Button ' button that displays the RFI ID, to make it more noticeable
+
+        Private toggleCompleteButton As Button ' button to mark the RFI as complete/uncomplete, when clicked it will change the text to "Complete" or "Uncomplete" depending on the current state and move it to the corresponding container
+
+        Private editNotesButton As Button ' button to edit the notes, when clicked it will open an input box to edit the notes
+        ' Labels for the RFI details
+        Private titleLabel As Label
+        Private notesLabel As Label
+        Private dateLabel As Label
+        ' Panels for layout
+        Private buttonContainer As FlowLayoutPanel ' this is the panel that contains the right-side buttons and stacks them vertically, with extensibility for more buttons in the future
+        Private mainContainer As TableLayoutPanel ' uses a table layout to stack the title and bottom row vertically and maintain a consistent layout
+        Private bottomRow As TableLayoutPanel ' table to keep layout consistent for the notes and date labels
+
+        ' Event to handle the toggle complete button click
+        ''' <summary>
+        ''' Event that is raised when the toggle complete button is clicked.
+        ''' This will be handled by the Form2 class to move the RFI row to the appropriate display based on its completion state.
+        ''' </summary>
+        Public Event ToggleCompleteClicked(sender As RfiRow, e As EventArgs)
+
+        ' Property to check whether the RFI is complete or not
+        ''' <summary>
+        ''' Gets whether the RFI is complete.
+        ''' Used in toggleComplete function
+        ''' </summary>
+        ''' <returns>True if complete, False otherwise.</returns>
+        Public ReadOnly Property isComplete As Boolean
+            Get
+                Return toggleCompleteButton.Text = "Reset" ' If the button text is "Undo", then it is complete, otherwise it is not.
+            End Get
+        End Property
+
+
+        ''' <summary>
+        ''' Constructor to initialize the RFI row with details provided.
+        ''' This will create a panel with the RFI ID, description, notes, and buttons for actions.
+        ''' </summary>
+        ''' <param name="rfiId">The RFI ID</param>
+        ''' <param name="description">The description of the RFI</param>
+        ''' <param name="notes">Any notes associated with the RFI</param>
+        ''' <param name="container">The container to add this row to</param>
+        ''' <param name="creationDate">The creation date of the RFI</param>
+        Public Sub New(rfiId As String, description As String, notes As String, container As FlowLayoutPanel, isComplete As Boolean, creationDate As DateTime)
+            ' we create the buttons and labels in the constructor, to aid editing and reduce redundant code. 
+
+            ' General panel settings
+            Height = 80
+            Width = container.ClientSize.Width
+            Anchor = AnchorStyles.Left Or AnchorStyles.Right
+            Dock = DockStyle.Top
+            BackColor = Color.White
+            Padding = New Padding(5)
+            BorderStyle = BorderStyle.FixedSingle
+
+            ' RFI ID button
+            rfiIdButton = New Button With {
+            .Text = rfiId,
+            .Width = 60,
             .Dock = DockStyle.Left,
             .BackColor = Color.White,
-            .FlatStyle = FlatStyle.Flat
-        }
+            .FlatStyle = FlatStyle.Flat,
+            .Margin = New Padding(0)
+            }
 
-        ' Right-side buttons
-        Dim btnComplete As New Button With {
-            .Text = "Complete",
-            .Width = 80,
+            ' Right-side buttons
+            toggleCompleteButton = New Button With {
+            .Width = 100,
             .Height = 30,
             .FlatStyle = FlatStyle.Flat
-        }
+            }
+            AddHandler toggleCompleteButton.Click, AddressOf OnToggleCompleteClicked ' start the chain of events when the button is clicked
 
-        Dim btnEdit As New Button With {
+            If isComplete Then ' If the RFI is complete, set the button text to the appropriate value
+                toggleCompleteButton.Text = "Reset"
+            Else
+                toggleCompleteButton.Text = "Complete"
+            End If
+
+            editNotesButton = New Button With {
             .Text = "Edit Notes",
-            .Width = 80,
+            .Width = 100,
             .Height = 30,
             .FlatStyle = FlatStyle.Flat
-        }
+            }
+            AddHandler editNotesButton.Click, AddressOf OnEditNotesClick
 
-        ' Right panel to stack buttons vertically
-        Dim rightPanel As New FlowLayoutPanel With {
+            ' Container for right-side buttons
+            buttonContainer = New FlowLayoutPanel With {
             .Dock = DockStyle.Right,
-            .Width = 90
-        }
-        rightPanel.Controls.Add(btnComplete)
-        rightPanel.Controls.Add(btnEdit)
+            .FlowDirection = FlowDirection.TopDown,
+            .WrapContents = False,
+            .AutoSize = True,
+            .AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            .Margin = New Padding(0)
+            }
+            buttonContainer.Controls.Add(toggleCompleteButton)
+            buttonContainer.Controls.Add(editNotesButton)
 
-        ' Middle panel for text and labels
-        Dim middlePanel As New TableLayoutPanel With {
+            ' Middle panel
+            mainContainer = New TableLayoutPanel With {
             .Dock = DockStyle.Fill,
             .ColumnCount = 1,
-            .RowCount = 2
+            .RowCount = 2,
+            .Margin = New Padding(0)
         }
-        middlePanel.RowStyles.Add(New RowStyle(SizeType.Percent, 60))
-        middlePanel.RowStyles.Add(New RowStyle(SizeType.Percent, 40))
+            mainContainer.RowStyles.Add(New RowStyle(SizeType.Percent, 60))
+            mainContainer.RowStyles.Add(New RowStyle(SizeType.Percent, 40))
 
-        ' Top row: AI generated description
-        Dim lblTitle As New Label With {
-            .Text = "15 word AI generated description goes here",
+            ' Title label
+            titleLabel = New Label With {
+            .Text = description,
             .Dock = DockStyle.Fill,
-            .Font = New Font("Segoe UI", 10, FontStyle.Regular)
+            .Font = New Font("Segoe UI", 10, FontStyle.Regular),
+            .AutoSize = False,
+            .TextAlign = ContentAlignment.MiddleLeft
         }
 
-        ' Bottom row: Notes and date
-        Dim bottomRow As New TableLayoutPanel With {
+            ' Bottom row for notes/date
+            bottomRow = New TableLayoutPanel With {
             .Dock = DockStyle.Fill,
-            .ColumnCount = 2
+            .ColumnCount = 2,
+            .Margin = New Padding(0)
         }
-        bottomRow.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50))
-        bottomRow.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50))
+            bottomRow.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 60))
+            bottomRow.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 40))
 
-        Dim lblNotes As New Label With {
-            .Text = "Notes go here",
+            notesLabel = New Label With {
+            .Text = notes,
             .Dock = DockStyle.Fill,
             .ForeColor = Color.Gray,
-            .Font = New Font("Segoe UI", 8, FontStyle.Italic)
+            .Font = New Font("Segoe UI", 8, FontStyle.Italic),
+            .AutoEllipsis = True,
+            .TextAlign = ContentAlignment.MiddleLeft
         }
 
-        Dim lblDate As New Label With {
-            .Text = "Creation Date here",
-            .Dock = DockStyle.Right,
+            dateLabel = New Label With {
+            .Text = creationDate.ToString("dd/MM/yyyy"),
+            .Dock = DockStyle.Fill,
             .ForeColor = Color.Gray,
             .Font = New Font("Segoe UI", 8, FontStyle.Italic),
             .TextAlign = ContentAlignment.MiddleRight
         }
 
-        bottomRow.Controls.Add(lblNotes, 0, 0)
-        bottomRow.Controls.Add(lblDate, 1, 0)
+            bottomRow.Controls.Add(notesLabel, 0, 0)
+            bottomRow.Controls.Add(dateLabel, 1, 0)
 
-        ' Add labels to middle panel
-        middlePanel.Controls.Add(lblTitle)
-        middlePanel.Controls.Add(bottomRow)
+            mainContainer.Controls.Add(titleLabel, 0, 0)
+            mainContainer.Controls.Add(bottomRow, 0, 1)
 
-        ' Add everything to main panel
-        rowPanel.Controls.Add(middlePanel)
-        rowPanel.Controls.Add(rightPanel)
-        rowPanel.Controls.Add(btnLeft)
+            ' Add to main panel
+            Controls.Add(mainContainer)
+            Controls.Add(buttonContainer)
+            Controls.Add(rfiIdButton)
+        End Sub
+        ''' <summary>
+        ''' Handles the click event for the toggle complete button.
+        ''' Raises an event to notify the parent form to handle the completion toggle.
+        ''' </summary>
+        ''' <param name="sender">The sender of the event</param>
+        ''' <param name="e">The event arguments</param>
+        Private Sub OnToggleCompleteClicked(sender As Object, e As EventArgs)
+            ' Raise the event to notify the parent form to handle the completion toggle
+            RaiseEvent ToggleCompleteClicked(Me, EventArgs.Empty)
 
-        Return rowPanel
-    End Function
+            If Me.isComplete Then ' reuse the isComplete property to check if the RFI is complete, done within the RfiRow class to avoid any issues.
+                toggleCompleteButton.Text = "Complete"
+            Else
+                toggleCompleteButton.Text = "Reset"
+            End If
 
-    Public Class RfiRow
-        Inherits Panel
+        End Sub
 
-        Public Sub New(rfiId As String, description As String, notes As String, creationDate As DateTime)
-            ' General panel settings
-            Me.Height = 90
-            Me.Dock = DockStyle.Top
-            Me.BackColor = Color.White
-            Me.Padding = New Padding(5)
-            Me.BorderStyle = BorderStyle.FixedSingle
 
-            ' Left vertical RFI ID button
-            Dim btnLeft As New Button With {
-                .Text = rfiId,
-                .Width = 60,
-                .Dock = DockStyle.Left,
-                .BackColor = Color.White,
-                .FlatStyle = FlatStyle.Flat,
-                .Margin = New Padding(0)
-            }
+        ''' <summary>
+        ''' Handles the click event for the Edit Notes button.
+        ''' Opens an input box to edit the notes.
+        ''' </summary>
+        ''' <param name="sender">The sender of the event</param>
+        ''' <param name="e">The event arguments</param>
 
-            ' Right-side buttons
-            Dim btnComplete As New Button With {
-                .Text = "Complete",
-                .Width = 80,
-                .Height = 30,
-                .FlatStyle = FlatStyle.Flat
-            }
-
-            Dim btnEdit As New Button With {
-                .Text = "Edit Notes",
-                .Width = 80,
-                .Height = 30,
-                .FlatStyle = FlatStyle.Flat
-            }
-
-            ' Right panel to contain buttons
-            Dim rightPanel As New FlowLayoutPanel With {
-                .Dock = DockStyle.Right,
-                .Width = 100,
-                .FlowDirection = FlowDirection.TopDown,
-                .WrapContents = False,
-                .AutoSize = True,
-                .AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                .Margin = New Padding(0)
-            }
-            rightPanel.Controls.Add(btnComplete)
-            rightPanel.Controls.Add(btnEdit)
-
-            ' Middle panel for description and notes/date
-            Dim middlePanel As New TableLayoutPanel With {
-                .Dock = DockStyle.Fill,
-                .ColumnCount = 1,
-                .RowCount = 2,
-                .Margin = New Padding(0)
-            }
-            middlePanel.RowStyles.Add(New RowStyle(SizeType.Percent, 60))
-            middlePanel.RowStyles.Add(New RowStyle(SizeType.Percent, 40))
-
-            ' Title/description label
-            Dim lblTitle As New Label With {
-                .Text = description,
-                .Dock = DockStyle.Fill,
-                .Font = New Font("Segoe UI", 10, FontStyle.Regular),
-                .AutoSize = False,
-                .TextAlign = ContentAlignment.MiddleLeft,
-                .Padding = New Padding(0, 0, 0, 0)
-            }
-
-            ' Bottom row (notes and date)
-            Dim bottomRow As New TableLayoutPanel With {
-                .Dock = DockStyle.Fill,
-                .ColumnCount = 2,
-                .Margin = New Padding(0)
-            }
-            bottomRow.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 60))
-            bottomRow.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 40))
-
-            Dim lblNotes As New Label With {
-                .Text = notes,
-                .Dock = DockStyle.Fill,
-                .ForeColor = Color.Gray,
-                .Font = New Font("Segoe UI", 8, FontStyle.Italic),
-                .AutoEllipsis = True,
-                .TextAlign = ContentAlignment.MiddleLeft,
-                .Padding = New Padding(0, 0, 0, 2) ' prevent clipping
-            }
-
-            Dim lblDate As New Label With {
-                .Text = creationDate.ToString("yyyy-MM-dd"),
-                .Dock = DockStyle.Fill,
-                .ForeColor = Color.Gray,
-                .Font = New Font("Segoe UI", 8, FontStyle.Italic),
-                .TextAlign = ContentAlignment.MiddleRight
-            }
-
-            bottomRow.Controls.Add(lblNotes, 0, 0)
-            bottomRow.Controls.Add(lblDate, 1, 0)
-
-            ' Add components to middle panel
-            middlePanel.Controls.Add(lblTitle, 0, 0)
-            middlePanel.Controls.Add(bottomRow, 0, 1)
-
-            ' Add all main components to the row panel (Me)
-            Me.Controls.Add(middlePanel)
-            Me.Controls.Add(rightPanel)
-            Me.Controls.Add(btnLeft)
+        Private Sub OnEditNotesClick(sender As Object, e As EventArgs)
+            Dim input As String = InputBox("Enter new notes:", "Edit Notes", notesLabel.Text)
+            If Not String.IsNullOrWhiteSpace(input) Then
+                notesLabel.Text = input
+            End If
         End Sub
     End Class
 End Class

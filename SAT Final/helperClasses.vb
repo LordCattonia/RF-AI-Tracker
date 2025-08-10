@@ -3,6 +3,9 @@
 ''' Will be displayed in the RFI display in Form2, constructor will be run after Form3 submits.
 ''' Stored in a list of rfiClass objects and then gets exported to a .RFI (XML) File. 
 ''' </summary>
+''' 
+
+
 Public Class rfiClass
     ' Properties to store the RFI data behind the scenes.
     Private Property _ID As Integer = -1 ' ID of rfi, validated on input into the class, no within the class. Defaults to -1 to detect any errors when using the class
@@ -83,7 +86,7 @@ Public Class rfiClass
         End Get
     End Property
 
-    Private Const AIPrompt As String = "summarize this to 15 words, do not go over that limit and make sure to include ALL important information:" ' Private constant AI prompt to avoid having it inline in the function.
+    Private Const AIPrompt As String = "<prompt>summarize the following description to 15 words, make sure to include ALL important information</prompt>" ' Private constant AI prompt to avoid having it inline in the function.
     ''' <summary>
     ''' Constructor for the rfiClass, initializes the RFI with an ID, description, and image location.
     ''' </summary>
@@ -96,6 +99,29 @@ Public Class rfiClass
         _desc = desc
         _imgLoc = image
         _dateCreated = DateTime.Now
+    End Sub
+
+    ''' <summary>
+    ''' Constructor for the rfiClass, initializes the RFI with all properties.
+    ''' This constructor is used when loading from XML.
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <param name="desc"></param>
+    ''' <param name="descAI"></param>
+    ''' <param name="imgLoc"></param>
+    ''' <param name="isComplete"></param>
+    ''' <param name="dateCreated"></param>
+    ''' <param name="dateCompleted"></param>
+    ''' <param name="daysPast"></param>
+    Public Sub New(id As Integer, desc As String, descAI As String, imgLoc As String, isComplete As Boolean, dateCreated As DateTime, dateCompleted As DateTime, daysPast As Integer)
+        _ID = id
+        _desc = desc
+        _descAI = descAI
+        _imgLoc = imgLoc
+        _isComplete = isComplete
+        _dateCreated = dateCreated
+        _dateCompleted = dateCompleted
+        _daysPast = daysPast
     End Sub
 
     Public Sub completeRFI()
