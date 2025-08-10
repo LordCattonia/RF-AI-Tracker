@@ -45,11 +45,14 @@ Public Class Form3
     ''' and adds it to the global project list for use in other forms.
     ''' </summary>
     Private Sub rfiSubmit_Click(sender As Object, e As EventArgs) Handles rfiSubmit.Click
-        Dim newRFI = New rfiClass(Val(rfiID.Text), rfiDesc.Text, _imgLoc) ' creates a new RFI with the ID, description and image location.
+        Dim newRFI = New RfiClass(Val(rfiID.Text), rfiDesc.Text, _imgLoc) ' creates a new RFI with the ID, description and image location.
 
 
         globalProj.proj.rfiList.Add(newRFI) ' add it to the global project list to use in other forms. Use globalProj. for clarity that it is a global variable.
         globalProj.nextId += 1 ' increment the next ID for the next RFI to be created. Use globalProj. for clarity that it is a global variable.
+
+        _parentForm.displayRfi(newRFI)
+
         Me.Close() ' close the form after submitting the RFI.
     End Sub
     ''' <summary>

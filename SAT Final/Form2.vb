@@ -11,14 +11,16 @@ Public Class Form2
     Public Sub New(parent As Form1)
         InitializeComponent()
 
-
-
         _parentForm = parent
         If darkMode.isDarkMode Then
             colourToggle.Text = "Dark"
         Else
             colourToggle.Text = "Light"
         End If
+
+        For Each i In globalProj.proj.rfiList
+            displayRfi(i) ' Display all RFIs in the project when the form loads.
+        Next
     End Sub
     Private Sub homeBtn_Click(sender As Object, e As EventArgs) Handles homeBtn.Click
         _parentForm.Show()
@@ -57,18 +59,30 @@ Public Class Form2
         darkMode.setAllForms(shouldToggle) ' This will apply the current theme to this form and all other open forms. False as we do not want to toggle the theme here, we just want to apply the current theme.
         ' Has to be in load as the theme is not applied until the form is loaded, so if it was in the constructor it would not apply the theme.
     End Sub
+    ''' <summary>
+    ''' Displays an RFI in the appropriate display based on its completion state.
+    ''' If the RFI is complete, it will be displayed in the doneDisplay, otherwise it will be displayed in the todoDisplay.
+    ''' Public so form3 can call it when a new RFI is created.
+    ''' </summary>
+    ''' <param name="rfi">The RFI object to be displayed</param>
+    Public Sub displayRfi(rfi As RfiClass)
+        If rfi.isComplete Then
+            ' If the RFI is complete, we add it to the done display, with the size of the corresponding display.
+            Dim rfiRow As New RfiRow(rfi, doneDisplay.ClientSize.Width)
+            AddHandler rfiRow.ToggleCompleteClicked, AddressOf toggleComplete ' This will call the toggleComplete function in Form2, which will move the RFI row to the appropriate display based on its completion state.
+            ' uses custom event ToggleCompleteClicked to handle the toggle complete button click and avoid any issues with button as the sender.
+            doneDisplay.Controls.Add(rfiRow)
+        Else
+            ' If the RFI is not complete, we add it to the todo display, with the size of the corresponding display.
+            Dim rfiRow As New RfiRow(rfi, todoDisplay.ClientSize.Width)
+            AddHandler rfiRow.ToggleCompleteClicked, AddressOf toggleComplete ' This will call the toggleComplete function in Form2, which will move the RFI row to the appropriate display based on its completion state.
+            ' uses custom event ToggleCompleteClicked to handle the toggle complete button click and avoid any issues with button as the sender.
+            todoDisplay.Controls.Add(rfiRow)
+        End If
 
-    Private Sub displayRfi()
-        ' Planned layout:
-        'flowlayoutpanel>{label for id, aiDesc, 
-        Dim rfiRow As New RfiRow("001", "AI-generated description goes here", "Some notes go here", doneDisplay, False, DateTime.Now)
-        AddHandler rfiRow.ToggleCompleteClicked, AddressOf toggleComplete ' This will call the toggleComplete function in Form2, which will move the RFI row to the appropriate display based on its completion state.
-        ' uses custom event ToggleCompleteClicked to handle the toggle complete button click and avoid any issues with button as the sender.
-        todoDisplay.Controls.Add(rfiRow)
     End Sub
 
     Private Sub exportBtn_Click(sender As Object, e As EventArgs) Handles exportBtn.Click
-        displayRfi()
     End Sub
 
     Private Sub hideToDo_Click(sender As Object, e As EventArgs) Handles hideToDo.Click
@@ -156,20 +170,32 @@ Public Class Form2
 
 
         ''' <summary>
-        ''' Constructor to initialize the RFI row with details provided.
-        ''' This will create a panel with the RFI ID, description, notes, and buttons for actions.
+        ''' The constructor for the RfiRow class.
+        ''' Initializes the RFI row by breaking the given RfiClass object.
+        ''' Alse sets up the layout, buttons, and labels for the RFI display.
+        ''' size is intended to be the width of the panel, so it can be resized to fit the form for different DPIs.
+        ''' 
         ''' </summary>
-        ''' <param name="rfiId">The RFI ID</param>
-        ''' <param name="description">The description of the RFI</param>
-        ''' <param name="notes">Any notes associated with the RFI</param>
-        ''' <param name="container">The container to add this row to</param>
-        ''' <param name="creationDate">The creation date of the RFI</param>
-        Public Sub New(rfiId As String, description As String, notes As String, container As FlowLayoutPanel, isComplete As Boolean, creationDate As DateTime)
-            ' we create the buttons and labels in the constructor, to aid editing and reduce redundant code. 
+        ''' <param name="rfiObject">The RFI object to be broken down and displayed</param>
+        ''' <param name="size">Size in pixels of the parent container</param>
+        Public Sub New(rfiObject As RfiClass, size As Integer)
+
+            ' break down the rfiObject into its components for easier access (and also because I made this class before I had the idea to use rfiClass as the parameter)
+
+            Dim rfiId As String = rfiObject.ID.ToString() ' the RFI ID, converted to string for display
+            Dim description As String = rfiObject.descAI ' the description of the RFI, AI-generated to shorten the description to 15 words
+            Dim notes As String = rfiObject.notes ' the notes associated with the RFI, can be empty
+            Dim isComplete As Boolean = rfiObject.isComplete ' whether the RFI is complete or not, used to set the button text and toggle state
+            Dim creationDate As DateTime = rfiObject.dateCreated ' the creation date of the RFI, used to display the date in the bottom row
+
+
+
+
+            ' we create the buttons and labels in the constructor, as that is where they are being constructed :p
 
             ' General panel settings
             Height = 80
-            Width = container.ClientSize.Width
+            Width = size
             Anchor = AnchorStyles.Left Or AnchorStyles.Right
             Dock = DockStyle.Top
             BackColor = Color.White
