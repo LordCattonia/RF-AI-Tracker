@@ -149,6 +149,10 @@ Public Class RfiDisplayForm
         Private mainContainer As TableLayoutPanel ' uses a table layout to stack the title and bottom row vertically and maintain a consistent layout
         Private bottomRow As TableLayoutPanel ' table to keep layout consistent for the notes and date labels
 
+
+
+        Private correspondingRfi As RfiClass ' The RFI object that this row represents, used to access and change the details of the RFI
+
         ' Event to handle the toggle complete button click
         ''' <summary>
         ''' Event that is raised when the toggle complete button is clicked.
@@ -314,8 +318,12 @@ Public Class RfiDisplayForm
 
             If Me.isComplete Then ' reuse the isComplete property to check if the RFI is complete, done within the RfiRow class to avoid any issues.
                 toggleCompleteButton.Text = "Complete"
+                globalProj.proj.rfiList.Find(Function(rfi) rfi.ID = correspondingRfi.ID).uncompleteRFI() ' Call the uncompleteRFI function in the RfiClass to mark it as uncomplete
+                dateLabel.Text = correspondingRfi.dateCreated.ToString("dd/MM/yyyy") ' Reset the date label to the creation date, as it is no longer complete
             Else
                 toggleCompleteButton.Text = "Reset"
+                globalProj.proj.rfiList.Find(Function(rfi) rfi.ID = correspondingRfi.ID).completeRFI() ' Call the completeRFI function in the RfiClass to mark it as complete
+                dateLabel.Text = correspondingRfi.dateCreated.ToString("dd/MM/yyyy") + "-" + correspondingRfi.dateCompleted.ToString("dd/MM/yyyy") ' Set the date label to the completion date, as it is now complete
             End If
 
         End Sub
