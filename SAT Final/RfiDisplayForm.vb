@@ -1,6 +1,6 @@
 ﻿Imports System.ComponentModel
 
-Public Class Form2
+Public Class RfiDisplayForm
     Private Property _parentForm As Form1
 
     ''' <summary>
@@ -39,7 +39,7 @@ Public Class Form2
     End Sub
 
     Private Sub newRFI_Click(sender As Object, e As EventArgs) Handles newRFI.Click
-        Dim form3 As New Form3(Me) ' Pass Form2 reference
+        Dim form3 As New NewRfiForm(Me) ' Pass Form2 reference
         form3.Show()
     End Sub
 

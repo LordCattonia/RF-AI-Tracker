@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 
-Public Class Form3
-    Private _parentForm As Form2
+Public Class NewRfiForm
+    Private _parentForm As RfiDisplayForm
 
     Private _imgLoc As String
     ''' <summary>
@@ -9,7 +9,7 @@ Public Class Form3
     ''' </summary>
     ''' <param name="parent">This is the parent form to allow re-showing Form2 after hiding</param>
     ''' 
-    Public Sub New(parent As Form2)
+    Public Sub New(parent As RfiDisplayForm)
         InitializeComponent()
         _parentForm = parent
     End Sub

@@ -21,7 +21,7 @@ Public Class Form1
             Dim tempRFI As XDocument = XDocument.Load(filePath)
             RFIlist = tempRFI.Root
             MsgBox("RFI File loaded successfully.")
-            Dim form2 As New Form2(Me)  ' Pass Form1 reference
+            Dim form2 As New RfiDisplayForm(Me)  ' Pass Form1 reference
             Me.Hide()
             form2.Show()
 
@@ -31,7 +31,7 @@ Public Class Form1
     End Sub
 
     Private Sub decodeXML_Click(sender As Object, e As EventArgs) Handles runTest.Click
-        Dim form2 As New Form2(Me)  ' Pass Form1 reference
+        Dim form2 As New RfiDisplayForm(Me)  ' Pass Form1 reference
         Me.Hide()
         form2.Show()
     End Sub

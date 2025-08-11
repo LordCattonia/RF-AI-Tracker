@@ -151,11 +151,27 @@ End Class
 Public Class projectClass
     Public Property rfiList As New List(Of RfiClass) ' public and not through getters and setters to make sure users of the class have access to all list functions
 
-    Public Sub exportXML()
-        For Each rfi As RfiClass In rfiList
+    Public Function exportXML() As XDocument
+        ' Root element
+        Dim root As New XElement("project")
 
+        ' Loop through each RFI and add as XML
+        For Each rfi As RfiClass In rfiList
+            Dim rfiElement As New XElement("rfi",
+                New XElement("id", rfi.ID),
+                New XElement("desc", rfi.desc),
+                New XElement("descAI", rfi.descAI),
+                New XElement("isComplete", rfi.isComplete),
+                New XElement("dateCreated", rfi.dateCreated.ToString("o")), ' ISO format for easy of parsing
+                New XElement("dateCompleted", rfi.dateCompleted.ToString("o")),
+)
+
+            root.Add(rfiElement)
         Next
-    End Sub
+
+        ' Return as XDocument
+        Return New XDocument(root)
+    End Function
 
 
     Public Sub loadXML(rfiXML As XDocument)
