@@ -157,13 +157,6 @@ Public Class projectClass
 
     Public Property rfiList As New List(Of RfiClass) ' public and not through getters and setters to make sure users of the class have access to all list functions
 
-    Private Property _ID As Integer = -1 ' ID of project, validated on input into the class, no within the class. Defaults to -1 to detect any errors when using the class
-    Private Property _name As String = "" ' Long description entered by user
-    Private Property _notes As String = "" ' Store notes created by the user while using the app.
-    Private Property _isComplete As Boolean = False ' Stores whether it has been completed yet, defaults to false
-    Private Property _dateCreated As DateTime = DateTime.MinValue ' stores when the class was created, defaults to a dummy value indicating not created yet
-    Private Property _dateCompleted As DateTime = DateTime.MinValue ' this stores when the class was marked completed when completeRFI is ran. Defaults to a default dummy value indicating not completed yet
-
 
     Public Function exportXML() As XDocument
         ' Root element
@@ -172,13 +165,15 @@ Public Class projectClass
         ' Loop through each RFI and add as XML
         For Each rfi As RfiClass In rfiList
             Dim rfiElement As New XElement("rfi",
-                New XElement("id", rfi.ID),
+                New XElement("id", rfi.ID.ToString()),
                 New XElement("desc", rfi.desc),
                 New XElement("descAI", rfi.descAI),
+                New XElement("imgLoc", rfi.imgLoc),
                 New XElement("isComplete", rfi.isComplete),
                 New XElement("dateCreated", rfi.dateCreated.ToString("o")), ' ISO format for ease of parsing
-                New XElement("dateCompleted", rfi.dateCompleted.ToString("o"))
-            )
+                New XElement("dateCompleted", rfi.dateCompleted.ToString("o")),
+                New XElement("daysPast", rfi.daysPast) ' Store days past since creation
+                )
 
             root.Add(rfiElement)
         Next
@@ -187,10 +182,31 @@ Public Class projectClass
         Return New XDocument(root)
     End Function
 
-
+    ''' <summary>
+    ''' This function loads RFIs from an XML document into the rfiList.
+    ''' It expects the XML to be structured with a root element containing multiple "rfi" elements.
+    ''' Each "rfi" element should contain child elements for id, desc, descAI, imgLoc, isComplete, dateCreated, dateCompleted, and daysPast.
+    ''' If this structure failes, it will throw an exception which is caught and reported to the user.
+    ''' </summary>
+    ''' <param name="rfiXML"></param>
     Public Sub loadFromXML(rfiXML As XDocument)
         For Each RFI As XElement In rfiXML.Root.Elements("rfi")
-
+            Try
+                rfiList.Append(
+                New RfiClass(
+                    Val(RFI.Element("id").Value),
+                    RFI.Element("desc").Value,
+                    RFI.Element("descAI").Value,
+                    RFI.Element("imgLoc").Value,
+                    Boolean.Parse(RFI.Element("isComplete").Value),
+                    DateTime.Parse(RFI.Element("dateCreated").Value),
+                    DateTime.Parse(RFI.Element("dateCompleted").Value),
+                    Val(RFI.Element("daysPast").Value)
+                ))
+            Catch ex As Exception
+                ' Handle any parsing errors, such as missing elements or incorrect formats
+                MessageBox.Show("Error loading RFI from XML: " & ex.Message) ' we simply pass the message on to the user, as this is a user error and not a code error. This handles existance, type and range checks and reports to the user what went wrong.
+            End Try
         Next
     End Sub
 End Class
